@@ -32,12 +32,10 @@ const { Content } = Layout;
 
 // --- CẤU HÌNH ---
 const LEVELS = [
-  { value: 5, label: "Tập sự", color: "green" },
-  { value: 10, label: "Thành thạo", color: "blue" },
-  { value: 20, label: "Trùm cuối", color: "red" },
+  { value: 5, label: "Tập sự", color: "green", time: 30 }, // 30 giây
+  { value: 10, label: "Thành thạo", color: "blue", time: 24 }, // 24 giây
+  { value: 20, label: "Trùm cuối", color: "red", time: 18 }, // 18 giây
 ];
-
-const TIME_PER_QUESTION = 30;
 
 interface Question {
   target: GenZTerm;
@@ -70,6 +68,8 @@ const Game: React.FC = () => {
 
   // Game Settings
   const [selectedLevel, setSelectedLevel] = useState<number>(10);
+  const currentTimeLimit =
+    LEVELS.find((l) => l.value === selectedLevel)?.time || 15;
 
   // Game Play State
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -80,7 +80,7 @@ const Game: React.FC = () => {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
 
   // Timer State
-  const [timeLeft, setTimeLeft] = useState<number>(TIME_PER_QUESTION);
+  const [timeLeft, setTimeLeft] = useState<number>(currentTimeLimit);
 
   // High Scores
   const [highScores, setHighScores] = useState<Record<number, number>>({
@@ -152,8 +152,8 @@ const Game: React.FC = () => {
     });
 
     setSelectedAnswer(null);
-    setTimeLeft(TIME_PER_QUESTION);
-  }, [data]);
+    setTimeLeft(currentTimeLimit);
+  }, [data, currentTimeLimit]);
 
   const handleNextQuestion = () => {
     if (questionCount >= selectedLevel) {
@@ -248,9 +248,9 @@ const Game: React.FC = () => {
   // Helper chọn màu cho đồng hồ
   const getTimerColor = () => {
     // Green if time left is greater than 2/3 of total time
-    if (timeLeft > TIME_PER_QUESTION * (2 / 3)) return "#52c41a";
+    if (timeLeft > currentTimeLimit * (2 / 3)) return "#52c41a";
     // Orange if time left is greater than 1/3 of total time
-    if (timeLeft > TIME_PER_QUESTION * (1 / 3)) return "#faad14";
+    if (timeLeft > currentTimeLimit * (1 / 3)) return "#faad14";
     // Red otherwise
     return "#ff4d4f";
   };
@@ -347,7 +347,7 @@ const Game: React.FC = () => {
                   &ldquo;{getKhaKhiaMessage(score, selectedLevel)}&rdquo;
                 </Text>
               </div>
-              <Space direction="vertical" style={{ width: "100%" }}>
+              <Space orientation="vertical" style={{ width: "100%" }}>
                 <Button
                   block
                   icon={<CopyOutlined />}
@@ -428,7 +428,7 @@ const Game: React.FC = () => {
             <div style={{ position: "absolute", top: 20, right: 20 }}>
               <Progress
                 type="circle"
-                percent={(timeLeft / TIME_PER_QUESTION) * 100}
+                percent={(timeLeft / currentTimeLimit) * 100}
                 format={() => `${timeLeft}s`}
                 size={50}
                 strokeColor={getTimerColor()}
