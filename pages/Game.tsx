@@ -24,7 +24,6 @@ import {
   ThunderboltOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
-import { useRouter } from "next/navigation"; // CHANGED: from react-router-dom
 import { GenZTerm } from "@/types"; // Ensure path is correct
 import Link from "next/link";
 
@@ -38,7 +37,7 @@ const LEVELS = [
   { value: 20, label: "Trùm cuối", color: "red" },
 ];
 
-const TIME_PER_QUESTION = 15;
+const TIME_PER_QUESTION = 30;
 
 interface Question {
   target: GenZTerm;
@@ -65,8 +64,6 @@ const getKhaKhiaMessage = (score: number, total: number) => {
 };
 
 const Game: React.FC = () => {
-  const router = useRouter(); // CHANGED: useNavigate -> useRouter
-
   // --- STATE ---
   const [data, setData] = useState<GenZTerm[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -248,9 +245,13 @@ const Game: React.FC = () => {
     generateQuestion();
   };
 
+  // Helper chọn màu cho đồng hồ
   const getTimerColor = () => {
-    if (timeLeft > 10) return "#52c41a";
-    if (timeLeft > 5) return "#faad14";
+    // Green if time left is greater than 2/3 of total time
+    if (timeLeft > TIME_PER_QUESTION * (2 / 3)) return "#52c41a";
+    // Orange if time left is greater than 1/3 of total time
+    if (timeLeft > TIME_PER_QUESTION * (1 / 3)) return "#faad14";
+    // Red otherwise
     return "#ff4d4f";
   };
 
@@ -429,7 +430,7 @@ const Game: React.FC = () => {
                 type="circle"
                 percent={(timeLeft / TIME_PER_QUESTION) * 100}
                 format={() => `${timeLeft}s`}
-                width={50}
+                size={50}
                 strokeColor={getTimerColor()}
               />
             </div>
