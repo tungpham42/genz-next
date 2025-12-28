@@ -1,0 +1,66 @@
+/* app/globals.css */
+
+:root {
+  --bg-color: #fffbf5; /* Warm Cream */
+  --primary-color: #8b5cf6; /* Gen Z Purple */
+  --text-primary: #2d3748;
+  --card-bg: #ffffff;
+}
+
+body {
+  background-color: var(--bg-color);
+  /* Font family is now handled by Next.js font loader on the body tag */
+  color: var(--text-primary);
+  /* Optional: faint noise texture for coziness */
+  background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+  background-size: 24px 24px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e0;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aec0;
+}
+
+/* Pagination Customization */
+.ant-pagination-item {
+  border-radius: 12px !important;
+  border: none !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+.ant-pagination-item-active {
+  background: var(--primary-color) !important;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+.ant-pagination-item-active a {
+  color: white !important;
+}
+
+/* Input Search Customization */
+.custom-search-input .ant-input-wrapper {
+  box-shadow: 0 8px 20px rgba(139, 92, 246, 0.1);
+  border-radius: 20px !important;
+}
+.custom-search-input .ant-input {
+  border-radius: 20px 0 0 20px !important;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #e2e8f0;
+  padding-left: 10px !important;
+}
+.custom-search-input .ant-btn {
+  border-radius: 0 20px 20px 0 !important;
+  background-color: var(--primary-color);
+  border: none;
+  height: 50px;
+}
