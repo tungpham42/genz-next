@@ -375,15 +375,28 @@ const Game: React.FC = () => {
                 Chọn độ khó để thử thách bản thân:
               </Paragraph>
 
-              <div style={{ marginBottom: 24 }}>
+              <div style={{ marginBottom: 24, width: "100%" }}>
                 <Radio.Group
                   value={selectedLevel}
                   onChange={(e) => setSelectedLevel(e.target.value)}
                   buttonStyle="solid"
+                  style={{ display: "flex", width: "100%" }} // 1. Turn Group into a Flex container
                 >
                   {LEVELS.map((lvl) => (
-                    <Radio.Button key={lvl.value} value={lvl.value}>
-                      {lvl.label} ({lvl.value})
+                    <Radio.Button
+                      key={lvl.value}
+                      value={lvl.value}
+                      style={{
+                        flex: 1, // 2. Make buttons grow equally
+                        textAlign: "center", // 3. Center text
+                        padding: "0 2px", // 4. Reduce padding to fit long text on small screens
+                        fontSize: "12px", // 5. Slightly smaller font for mobile safety
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      {lvl.label}
                     </Radio.Button>
                   ))}
                 </Radio.Group>
